@@ -11,7 +11,8 @@ import SwiftUI
 struct UserListApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let root = Router()
+            root.createModule()
         }
     }
 }

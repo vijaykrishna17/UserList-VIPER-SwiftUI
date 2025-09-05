@@ -12,35 +12,18 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             NavigationStack {
-                ScrollView {
-                    ForEach(viewmodel.userList) { user in
-                        VStack(alignment: .leading, spacing: 10) {
-                            
-                            HStack(alignment: .center,spacing: 10) {
-                                Image(systemName: "globe")
-                                    .imageScale(.large)
-                                    .foregroundStyle(.tint)
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text(user.name)
-                                        .font(.headline)
-                                        .fontWeight(.bold)
-                                    Text("@" + user.email)
-                                        .foregroundStyle(Color.blue)
-                                        .font(.headline)
-                                }
+                if !viewmodel.isLoading {
+                    ScrollView {
+                        ForEach(viewmodel.userList) { user in
+                            NavigationLink(destination: viewmodel.router.gotoDetailsView(userID: user.id)) {
+                                userCellView(user: user)
                             }
-                            .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.red, lineWidth: 2)
-                                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.red.opacity(0.2)))
-                            )
-                            .padding(.horizontal)
-                            
                         }
-                    }
-                }.navigationTitle("USER LIST")
+                    }.navigationTitle("USER LIST")
+                } else {
+                    ProgressView()
+                        .frame(width: 500, height: 100)
+                }
             }.task {
                 await viewmodel.fetchUserData()
             }
@@ -53,4 +36,34 @@ struct ContentView: View {
     let interractor = UserInteractor(networkService: service)
     let vm = UserPresenter(interactor: interractor)
     ContentView(viewmodel: vm)
+}
+
+extension ContentView {
+    func userCellView(user: UserEntity) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .center,spacing: 10) {
+//                Image(systemName: "globe")
+//                    .imageScale(.large)
+//                    .foregroundStyle(.tint)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(user.name)
+                        .foregroundStyle(Color.red)
+                        .font(.headline)
+                        .fontWeight(.bold)
+                    Text(user.email)
+                       // .foregroundStyle(Color.blue)
+                        .font(.headline)
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.red, lineWidth: 2)
+                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.red.opacity(0.1)))
+            )
+            .padding(.horizontal)
+            
+        }
+    }
 }

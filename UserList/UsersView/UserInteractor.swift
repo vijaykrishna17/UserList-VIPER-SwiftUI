@@ -12,18 +12,14 @@ protocol UserInteractorProtocol: AnyObject {
     func fetchUserData() async throws -> [UserEntity]
 }
 
-class UserInteractor: UserInteractorProtocol  {
-    
+
+final class UserInteractor: UserInteractorProtocol  {
     let networkService: NetworkService
     
     init(networkService: NetworkService) {
         self.networkService = networkService
     }
     func fetchUserData() async throws -> [UserEntity] {
-        do{
           return try await networkService.fetchUserData()
-        } catch {
-            throw CustomError.decodeingError(error.localizedDescription)
-        }
     }
 }

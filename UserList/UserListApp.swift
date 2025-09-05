@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
-
 @main
 struct UserListApp: App {
+    init() {
+            // Set environment once here
+            Environment.current = .production
+        }
     var body: some Scene {
         WindowGroup {
             let root = Router()

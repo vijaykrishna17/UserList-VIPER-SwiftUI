@@ -9,4 +9,5 @@ struct UserEntity: Codable, Identifiable {
     let id: Int
     let name: String
     let email: String
+    let phone: String
 }

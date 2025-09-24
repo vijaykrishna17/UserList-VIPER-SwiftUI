@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var viewmodel: UserPresenter
+    @State var viewmodel: UserPresenter
     var body: some View {
         ZStack {
             NavigationStack {
@@ -16,12 +16,13 @@ struct ContentView: View {
                     ScrollView {
                         ForEach(viewmodel.userList) { user in
                             NavigationLink(destination: viewmodel.router.gotoDetailsView(userID: user.id)) {
-                                userCellView(user: user)
+                                userCardView(user: user)
                             }
                         }
                     }.navigationTitle("USER LIST")
                 } else {
                     ProgressView()
+                        .foregroundStyle(Color.orange.opacity(0.4))
                         .frame(width: 500, height: 100)
                 }
             }.task {
@@ -39,12 +40,9 @@ struct ContentView: View {
 }
 
 extension ContentView {
-    func userCellView(user: UserEntity) -> some View {
+    func userCardView(user: UserEntity) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .center,spacing: 10) {
-//                Image(systemName: "globe")
-//                    .imageScale(.large)
-//                    .foregroundStyle(.tint)
                 VStack(alignment: .leading, spacing: 5) {
                     Text(user.name)
                         .foregroundStyle(Color.red)

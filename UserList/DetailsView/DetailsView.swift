@@ -12,8 +12,8 @@ struct DetailsView: View {
     var body: some View {
         ZStack {
             VStack() {
-                Text("User Details")
-                    .font(.title)
+//                Text("User Details")
+//                    .font(.title)
                 cardView
             }.padding()
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -21,7 +21,6 @@ struct DetailsView: View {
                 .background(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.red,lineWidth: 2)
-                        
                 )
                 .padding()
         }.navigationTitle("USER DETAILS")
@@ -33,18 +32,19 @@ struct DetailsView: View {
 }
 
 #Preview {
-    let service = NetworkService()
-    let interactor = UserDetailsInteractor(service: service)
-    let presenter = UserDetailsPresenter(interactor: interactor,userID: 3)
-    DetailsView(presenter: presenter)
+    NavigationStack{
+        let service = NetworkService()
+        let interactor = UserDetailsInteractor(service: service)
+        let presenter = UserDetailsPresenter(interactor: interactor,userID: 3)
+        DetailsView(presenter: presenter)
+    }
 }
 
 
 extension DetailsView {
-    
     var cardView: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Name: \(presenter.userDetails?.name ?? "noooo")")
+            Text("Name: \(presenter.userDetails?.name ?? "loading")")
                 .font(.title)
             Text("Email: \(presenter.userDetails?.email ?? "")")
                 .font(.headline)

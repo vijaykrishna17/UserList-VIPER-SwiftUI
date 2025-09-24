@@ -15,7 +15,6 @@ protocol UserRouterProtocol: AnyObject {
 
 final class Router: UserRouterProtocol {
     func gotoDetailsView(userID: Int) -> AnyView {
-        print("tapping goto details view....\(userID)")
         let service = NetworkService()
         let interactor = UserDetailsInteractor(service: service)
         let presenter = UserDetailsPresenter(interactor: interactor, userID: userID)

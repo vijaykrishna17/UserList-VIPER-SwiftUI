@@ -25,7 +25,7 @@ enum CustomError: Error {
 }
 
 protocol NetworkManaging: AnyObject {
-    func fetchData<T:Codable>(urlEndpoint: WebURL, type: T.Type) async throws -> T
+    func fetchData<T:Codable & Sendable>(urlEndpoint: WebURL, type: T.Type) async throws -> T
 }
 
 actor NetworkManager: NetworkManaging {
@@ -39,15 +39,13 @@ actor NetworkManager: NetworkManaging {
         return URLSession(configuration: configration)
     }()
     
-    func fetchData<T:Codable>(urlEndpoint: WebURL, type: T.Type) async throws -> T {
+    func fetchData<T:Codable & Sendable>(urlEndpoint: WebURL, type: T.Type) async throws -> T {
         guard let urlString = URL(string: urlEndpoint.url) else { throw CustomError.badURL }
         let urlRequest = URLRequest(url: urlString)
         do {
-            
             guard let (data,response) =  try? await session.data(for: urlRequest) else { throw CustomError.badServerResponse }
             guard  let httpRespance = response as? HTTPURLResponse, httpRespance.statusCode == 200 else { throw CustomError.badServerResponse }
             return try decoderHelper.decoder(type: T.self, data: data)
-            
         }catch {
             throw CustomError.decodeingError(error.localizedDescription)
         }
@@ -57,7 +55,7 @@ actor NetworkManager: NetworkManaging {
 
 final class JSONDecoderHelper {
     private let decoder = JSONDecoder()
-    func decoder<T:Codable>(type: T.Type, data: Data) throws -> T {
+    func decoder<T:Codable & Sendable>(type: T.Type, data: Data) throws -> T {
             return try decoder.decode(type.self, from: data)
     }
 }

@@ -8,17 +8,19 @@
 import Foundation
 import Combine
 
-protocol UserPresenterProtocol: ObservableObject {
+
+protocol UserPresenterProtocol: AnyObject {
     var isLoading: Bool {set get }
     var userList: [UserEntity] { get set }
     var showErrors: String? {get set}
     func fetchUserData() async
 }
 
+@Observable
 final class UserPresenter: UserPresenterProtocol {
-    @Published var isLoading: Bool
-    @Published var showErrors: String?
-    @Published var userList: [UserEntity] = []
+    var isLoading: Bool
+    var showErrors: String?
+    var userList: [UserEntity] = []
     let interactor: UserInteractorProtocol
     let router: UserRouterProtocol
     
@@ -31,10 +33,9 @@ final class UserPresenter: UserPresenterProtocol {
     @MainActor
     func fetchUserData() async {
         isLoading = true
-        defer {isLoading = false }
+        defer {isLoading = false}
         do {
-            let users = try await interactor.fetchUserData()
-            userList = users
+            userList = try await interactor.fetchUserData()
         } catch {
             showErrors = error.localizedDescription
         }

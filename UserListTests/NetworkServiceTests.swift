@@ -22,7 +22,6 @@ final class NetworkServiceTests: XCTestCase {
         }
     
     override func tearDown() {
-        
         print("calling 4")
         mockNetworkManager = nil
         networkService = nil

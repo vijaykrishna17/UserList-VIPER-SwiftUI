@@ -63,7 +63,7 @@ final class JSONDecoderHelper {
 // MARK -  mock networking class
 
 class MockNetworkManager: NetworkManaging {
-    
+    // Data added........
     var mockData: Data?
     var shouldFail = false
     

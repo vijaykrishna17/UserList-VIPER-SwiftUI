@@ -9,7 +9,7 @@ import Foundation
 
 
 class DetailsViews {
-    // dummy data....
+    // dummy data.... addiing in main  -> FFFFFFF
     var name: String
     var age: Int
     

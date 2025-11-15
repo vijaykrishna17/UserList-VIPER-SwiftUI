@@ -6,6 +6,13 @@
 //
 
 import Foundation
+
 class NetworkDummy {
     // nothing implemented..... adding in Feature........FFFFF
 }
+
+class UserNetworkManager {
+    
+
+}
+

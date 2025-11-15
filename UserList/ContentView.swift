@@ -22,8 +22,7 @@ struct ContentView: View {
                     }.navigationTitle("USER LIST")
                 } else {
                     ProgressView()
-                        .foregroundStyle(Color.orange.opacity(0.4))
-                        .frame(width: 500, height: 100)
+                        .frame(width: 100, height: 100)
                 }
             }.task {
                 await viewmodel.fetchUserData()

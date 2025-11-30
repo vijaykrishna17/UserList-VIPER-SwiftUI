@@ -24,7 +24,7 @@ enum Environment: String {
     }
     
     // Current environment (default: development)
-    static var current: Environment = .development
+    nonisolated(unsafe) static var current: Environment = .development
 }
 
 enum WebURL {

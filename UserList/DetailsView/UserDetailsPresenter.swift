@@ -33,10 +33,12 @@ final class UserDetailsPresenter: UserDetailsPresenterProtocol {
     func fetchDetails() async  {
         isLoading = true
         defer { isLoading = false }
-        do {
-            userDetails = try await interactor.fetchDetails(userID: self.userID)
-        } catch {
-            showError = error.localizedDescription
+        Task {
+            do {
+                userDetails = try await interactor.fetchDetails(userID: self.userID)
+            } catch {
+                showError = error.localizedDescription
+            }
         }
     }
 }

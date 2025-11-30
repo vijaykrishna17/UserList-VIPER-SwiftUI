@@ -13,6 +13,9 @@ class NetworkDummy {
 
 class UserNetworkManager {
     
+    func add() {
+        print("add method ........")
+    }
 
 }
 

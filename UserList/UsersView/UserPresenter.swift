@@ -17,7 +17,7 @@ protocol UserPresenterProtocol: AnyObject {
 }
 
 @Observable
-final class UserPresenter: UserPresenterProtocol {
+final class UserPresenter: UserPresenterProtocol, @unchecked Sendable {
     var isLoading: Bool
     var showErrors: String?
     var userList: [UserEntity] = []
